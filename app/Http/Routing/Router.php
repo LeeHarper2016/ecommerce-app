@@ -2,9 +2,11 @@
 
 namespace App\Http\Routing;
 
+use App\Http\Requests\Request;
+
 class Router {
     // Stores a list of all routes in the router.
-    private array $routes;
+    private static array $routes;
 
     /****************************************************************************************************
      *
@@ -15,7 +17,7 @@ class Router {
      *
      ***************************************************************************************************/
     public function __construct() {
-        $this->routes = array();
+        self::$routes = array();
     }
 
     /****************************************************************************************************
@@ -29,7 +31,18 @@ class Router {
      * @param callable $callback The function that will be executed when the route is resolved.
      *
      ***************************************************************************************************/
-    public function get(string $uri, callable $callback) {
-        $this->routes['get'][$uri] = $callback;
+    public static function get(string $uri, callable $callback) {
+        self::$routes['get'][$uri] = $callback;
+    }
+
+    public static function resolve(Request $request) {
+        $callback = self::$routes[$request->getMethod()][$request->getUri()] ?? false;
+
+        if ($callback === false) {
+            print("404: NOT FOUND");
+            exit(404);
+        } else {
+            call_user_func($callback);
+        }
     }
 }
