@@ -1,0 +1,17 @@
+{
+    "name": "leeharper2016/ecommerce-app",
+    "description": "A simple e-commerce application using a custom MVC architecture.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Lee Harper",
+            "email": "tharper@leeharper.dev"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {}
+}
