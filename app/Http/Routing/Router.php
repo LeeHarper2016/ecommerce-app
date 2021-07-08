@@ -4,7 +4,7 @@ namespace App\Http\Routing;
 
 class Router {
     // Stores a list of all routes in the router.
-    private $routes;
+    private array $routes;
 
     /****************************************************************************************************
      *
@@ -25,8 +25,11 @@ class Router {
      * Precondition: N/A.
      * Postcondition: The route is added to the $routes array.
      *
+     * @param string $uri The route that will execute a callback when resolved.
+     * @param callable $callback The function that will be executed when the route is resolved.
+     *
      ***************************************************************************************************/
-    public function get($uri, $callback) {
+    public function get(string $uri, callable $callback) {
         $this->routes['get'][$uri] = $callback;
     }
 }
