@@ -20,15 +20,15 @@ class Request {
      ****************************************************************************************************/
     public function __construct() {
         $this->uri = $_SERVER['REQUEST_URI'];
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         $this->data = array();
 
         if (!is_null(file_get_contents('php://input'))) {
             $formData = file_get_contents('php://input');
 
-            var_dump($formData);
-
-            $this->data = json_decode($formData, true);
+            if ($formData !== "") {
+                $this->data = json_decode($formData, true);
+            }
         }
     }
 
