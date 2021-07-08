@@ -28,13 +28,23 @@ class Router {
      * Postcondition: The route is added to the $routes array.
      *
      * @param string $uri The route that will execute a callback when resolved.
-     * @param callable $callback The function that will be executed when the route is resolved.
+     * @param callable|array $callback The function/method that will be executed when the route is resolved.
      *
      ***************************************************************************************************/
-    public static function get(string $uri, callable $callback) {
+    public static function get(string $uri, callable|array $callback) {
         self::$routes['get'][$uri] = $callback;
     }
 
+    /****************************************************************************************************
+     *
+     * Function: Router::resolve().
+     * Purpose: Resolves the current route, then executes a callback based on the route.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     * @param Request $request The information pertaining to the request.
+     *
+     ***************************************************************************************************/
     public static function resolve(Request $request) {
         $callback = self::$routes[$request->getMethod()][$request->getUri()] ?? false;
 
@@ -42,7 +52,13 @@ class Router {
             print("404: NOT FOUND");
             exit(404);
         } else {
-            call_user_func($callback);
+            if (is_array($callback)) {
+                $callable = [new $callback[0], $callback[1]];
+
+                $callable();
+            } else {
+                $callback();
+            }
         }
     }
 }
