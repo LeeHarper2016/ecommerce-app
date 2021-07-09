@@ -51,4 +51,25 @@ abstract class Model {
     public function getAll() {
         return DB::query('SELECT * FROM ' . $this->table);
     }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.find().
+     * Purpose: Finds a model within the database that has a supplied id.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     * @param int $id The ID being used for the search
+     * @return array The model that has the supplied array, or an empty array if none was found.
+     *
+     ***************************************************************************************************/
+    public function find(int $id) {
+        $result = DB::query('SELECT * FROM ' . $this->table . ' WHERE id = :id', [':id' => $id]);
+
+        if (count($result) === 0) {
+            return array();
+        } else {
+            return $result[0];
+        }
+    }
 }
