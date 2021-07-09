@@ -88,4 +88,26 @@ abstract class Model {
             $this->attributes[$key] = $attribute;
         }
     }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.fill().
+     * Purpose: Creates a new database model supplied with data given by the user.
+     * Precondition: N/A.
+     * Postcondition: A new model is stored to the database.
+     *
+     * @param array $data The data that will be used to create a new model
+     *
+     ***************************************************************************************************/
+    public function create(array $data) {
+        $columnString = '(' . implode(', ', array_keys($data)) . ')';
+        $options = array();
+
+        foreach ($data as $key => $datum) {
+            $options[':' . $key] = $datum;
+        }
+
+        $result = DB::query('INSERT INTO ' . $this->table . $columnString . '
+            VALUES (' . implode(',', array_keys($options)) . ')', $options);
+    }
 }
