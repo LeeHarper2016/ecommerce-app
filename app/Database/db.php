@@ -40,13 +40,15 @@ class DB {
      *
      *************************************************************************************************************/
     public static function query(string $sql, array $options = null) {
-        $statement = self::$connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $statement = self::$connection->prepare($sql);
 
         if (!is_null($options)) {
-            $statement->execute($options);
-        } else {
-            $statement->execute();
+            foreach ($options as $key => $option) {
+                $statement->bindValue($key, $option);
+            }
         }
+
+        $statement->execute();
 
         return $statement->fetchAll();
     }
