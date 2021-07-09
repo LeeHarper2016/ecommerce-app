@@ -72,4 +72,20 @@ abstract class Model {
             return $result[0];
         }
     }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.fill().
+     * Purpose: Supplies the attributes of the model with data given by the user.
+     * Precondition: N/A.
+     * Postcondition: The $attributes are filled.
+     *
+     * @param array $data The data that will be used to populate the model
+     *
+     ***************************************************************************************************/
+    public function fill(array $data) {
+        foreach($data as $key => $attribute) {
+            $this->attributes[$key] = $attribute;
+        }
+    }
 }
