@@ -3,6 +3,7 @@
 namespace App\Http\Routing;
 
 use App\Http\Requests\Request;
+use App\Http\Routing\Route;
 
 class Router {
     // Stores a list of all routes in the router.
@@ -32,7 +33,13 @@ class Router {
      *
      ***************************************************************************************************/
     public static function get(string $uri, callable|array $callback) {
-        self::$routes['get'][$uri] = $callback;
+        preg_match('/{.+}/', $uri,$matches);
+
+        if (count($matches) === 0) {
+            self::$routes[] = ['route' => new Route($uri, 'get'),'callback' => $callback];
+        } else {
+            self::$routes[] = ['route' => new Route($uri, 'get', $matches),'callback' => $callback];
+        }
     }
 
     /****************************************************************************************************
@@ -46,18 +53,17 @@ class Router {
      *
      ***************************************************************************************************/
     public static function resolve(Request $request) {
-        $callback = self::$routes[$request->getMethod()][$request->getUri()] ?? false;
+        foreach (self::$routes as $route) {
+            if ($route['route']->doesRouteMatch($request)) {
+                $callback = $route['callback'];
 
-        if ($callback === false) {
-            print("404: NOT FOUND");
-            exit(404);
-        } else {
-            if (is_array($callback)) {
-                $callable = [new $callback[0], $callback[1]];
+                if (is_array($callback)) {
+                    $callable = [new $callback[0], $callback[1]];
 
-                $callable();
-            } else {
-                $callback();
+                    call_user_func_array($callable, $route['route']->getBoundInput());
+                } else {
+                    call_user_func_array($callback, $route['route']->getBoundInput());
+                }
             }
         }
     }
