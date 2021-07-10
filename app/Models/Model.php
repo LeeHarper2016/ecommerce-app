@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Database\DB;
+use Exception;
 
 abstract class Model {
     protected $table;
@@ -22,6 +23,27 @@ abstract class Model {
         $classPath = explode('\\', static::class);
 
         return strtolower(end($classPath));
+    }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.checkAttributes().
+     * Purpose: Checks the keys of an array to ensure they match the attributes listed in the model.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     * @param array $data The data that was about to be parsed into the model.
+     * @return bool A determination of if the keys of the array match the attributes of the model.
+     *
+     ***************************************************************************************************/
+    private function checkAttributes(array $data) {
+        foreach ($data as $key => $datum) {
+            if (!in_array($key, $this->attributes)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /****************************************************************************************************
@@ -97,17 +119,23 @@ abstract class Model {
      * Postcondition: A new model is stored to the database.
      *
      * @param array $data The data that will be used to create a new model
+     * @throws Exception
      *
      ***************************************************************************************************/
     public function create(array $data) {
-        $columnString = '(' . implode(', ', array_keys($data)) . ')';
-        $options = array();
+        if (!$this->checkAttributes($data)) {
+            throw new Exception('The attributes provided do not match the attributes of the model.');
+        } else {
+            $columnString = '(' . implode(', ', array_keys($data)) . ')';
+            $options = array();
 
-        foreach ($data as $key => $datum) {
-            $options[':' . $key] = $datum;
+            foreach ($data as $key => $datum) {
+                $options[':' . $key] = $datum;
+            }
+
+            $result = DB::query('INSERT INTO ' . $this->table . $columnString . '
+            VALUES (' . implode(',', array_keys($options)) . ')', $options);
         }
 
-        $result = DB::query('INSERT INTO ' . $this->table . $columnString . '
-            VALUES (' . implode(',', array_keys($options)) . ')', $options);
     }
 }
