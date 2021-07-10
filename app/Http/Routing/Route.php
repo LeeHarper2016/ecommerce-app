@@ -14,6 +14,7 @@ class Route {
         $this->uri = $uri;
         $this->method = strtolower($method);
         $this->bindings = $bindings;
+        $this->boundInput = Array();
     }
 
     /****************************************************************************************************
