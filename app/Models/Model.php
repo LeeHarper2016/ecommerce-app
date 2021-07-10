@@ -82,14 +82,14 @@ abstract class Model {
      * Postcondition: N/A.
      *
      * @param int $id The ID being used for the search
-     * @return array The model that has the supplied array, or an empty array if none was found.
+     * @return null|array The model that has the supplied array, or an empty array if none was found.
      *
      ***************************************************************************************************/
     public function find(int $id) {
         $result = DB::query('SELECT * FROM ' . $this->table . ' WHERE id = :id', [':id' => $id]);
 
         if (count($result) === 0) {
-            return array();
+            return null;
         } else {
             return $result[0];
         }
