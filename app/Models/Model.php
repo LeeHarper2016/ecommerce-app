@@ -103,11 +103,16 @@ abstract class Model {
      * Postcondition: The $attributes are filled.
      *
      * @param array $data The data that will be used to populate the model
+     * @throws Exception
      *
      ***************************************************************************************************/
     public function fill(array $data) {
-        foreach($data as $key => $attribute) {
-            $this->attributes[$key] = $attribute;
+        if (!$this->checkAttributes($data)) {
+            throw new Exception('The attributes provided do not match the attributes of the model.');
+        } else {
+            foreach ($data as $key => $attribute) {
+                $this->attributes[$key] = $attribute;
+            }
         }
     }
 
