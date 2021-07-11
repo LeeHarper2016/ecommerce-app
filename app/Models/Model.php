@@ -128,19 +128,23 @@ abstract class Model {
      *
      ***************************************************************************************************/
     public function create(array $data) {
-        if (!$this->checkAttributes($data)) {
-            throw new Exception('The attributes provided do not match the attributes of the model.');
-        } else {
-            $columnString = '(' . implode(', ', array_keys($data)) . ')';
-            $options = array();
+        try {
+            if (!$this->checkAttributes($data)) {
+                throw new Exception('The attributes provided do not match the attributes of the model.');
+            } else {
+                $columnString = '(' . implode(', ', array_keys($data)) . ')';
+                $options = array();
 
-            foreach ($data as $key => $datum) {
-                $options[':' . $key] = $datum;
-            }
+                foreach ($data as $key => $datum) {
+                    $options[':' . $key] = $datum;
+                }
 
-            $result = DB::query('INSERT INTO ' . $this->table . $columnString . '
+                $result = DB::query('INSERT INTO ' . $this->table . $columnString . '
             VALUES (' . implode(',', array_keys($options)) . ')', $options);
+            }
+        } catch (Exception $e) {
+            echo 'ERROR: ' . $e->getMessage();
+            exit();
         }
-
     }
 }
