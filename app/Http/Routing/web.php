@@ -7,4 +7,5 @@ Router::get('/', function() {
     print(file_get_contents(__DIR__ . '/../../../public/index.html'));
 });
 Router::get('/api/products/{id}', [ProductController::class, 'view']);
+Router::get('/api/products', [ProductController::class, 'viewAll']);
 Router::post('/api/products', [ProductController::class, 'store']);
