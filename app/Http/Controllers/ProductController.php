@@ -29,4 +29,21 @@ class ProductController {
 
         print_r($product->find($id));
     }
+
+    /****************************************************************************************************
+     *
+     * Function: ProductController.store().
+     * Purpose: Takes in user input, and then uses it to attempt to create a new Product model.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     ****************************************************************************************************/
+    public function store() {
+        $request = new Request();
+        $product = new Product();
+
+        $product->create($request->getData());
+
+        return $product;
+    }
 }
