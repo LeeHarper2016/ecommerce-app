@@ -4,4 +4,4 @@ import App from './App.vue';
 
 require('normalize.css');
 
-createApp(App, {}).mount('#app');
+createApp(App).mount('#app');
