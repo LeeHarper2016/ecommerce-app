@@ -44,6 +44,27 @@ class Router {
 
     /****************************************************************************************************
      *
+     * Function: Router.post().
+     * Purpose: Adds a POST route to the array of routes.
+     * Precondition: N/A.
+     * Postcondition: The route is added to the $routes array.
+     *
+     * @param string $uri The route that will execute a callback when resolved.
+     * @param callable|array $callback The function/method that will be executed when the route is resolved.
+     *
+     ***************************************************************************************************/
+    public static function post(string $uri, callable|array $callback) {
+        preg_match('/{.+}/', $uri,$matches);
+
+        if (count($matches) === 0) {
+            self::$routes[] = ['route' => new Route($uri, 'get'),'callback' => $callback];
+        } else {
+            self::$routes[] = ['route' => new Route($uri, 'get', $matches),'callback' => $callback];
+        }
+    }
+
+    /****************************************************************************************************
+     *
      * Function: Router::resolve().
      * Purpose: Resolves the current route, then executes a callback based on the route.
      * Precondition: N/A.
