@@ -9,6 +9,29 @@ class ProductController {
 
     /****************************************************************************************************
      *
+     * Function: ProductController.viewAll().
+     * Purpose: Retrieves a list of all products found in the database.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     ****************************************************************************************************/
+    public function viewAll() {
+        header('Content-type: application/json');
+
+        $productModel = new Product();
+
+        $products = $productModel->getAll();
+
+        if (count($products) === 0) {
+            return array();
+        } else {
+            print json_encode($products);
+            return exit(200);
+        }
+    }
+
+    /****************************************************************************************************
+     *
      * Function: ProductController.view(int $id).
      * Purpose: Finds a Product model that has a matching $id.
      * Precondition: N/A.
