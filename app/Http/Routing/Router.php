@@ -57,9 +57,9 @@ class Router {
         preg_match('/{.+}/', $uri,$matches);
 
         if (count($matches) === 0) {
-            self::$routes[] = ['route' => new Route($uri, 'get'),'callback' => $callback];
+            self::$routes[] = ['route' => new Route($uri, 'post'),'callback' => $callback];
         } else {
-            self::$routes[] = ['route' => new Route($uri, 'get', $matches),'callback' => $callback];
+            self::$routes[] = ['route' => new Route($uri, 'post', $matches),'callback' => $callback];
         }
     }
 
