@@ -1,5 +1,7 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
+const {DefinePlugin} = require('webpack');
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -22,6 +24,11 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html",
+    }),
+
+    new DefinePlugin({
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: true
     }),
 
     new VueLoaderPlugin(),
