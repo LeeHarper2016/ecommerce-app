@@ -1,16 +1,21 @@
 <template>
-  <NavbarMenu></NavbarMenu>
+  <div>
+    <NavbarMenu></NavbarMenu>
+    <ProductList></ProductList>
+  </div>
 </template>
 <style>
 
 </style>
 <script>
 import NavbarMenu from "./components/NavbarMenu.vue";
+import ProductList from "./components/ProductList.vue";
 
 export default {
   name: 'App',
   components: {
-    NavbarMenu
+    NavbarMenu,
+    ProductList
   },
   data() {
     return [
