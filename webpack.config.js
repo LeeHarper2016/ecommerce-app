@@ -4,6 +4,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const {VueLoaderPlugin} = require("vue-loader");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -22,6 +23,8 @@ const config = {
     new HtmlWebpackPlugin({
       template: "src/index.html",
     }),
+
+    new VueLoaderPlugin(),
 
     new MiniCssExtractPlugin(),
 
@@ -45,6 +48,10 @@ const config = {
 
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
+      {
+        test: /\.(vue)$/i,
+        loader: "vue-loader",
+      },
     ],
   },
 };
