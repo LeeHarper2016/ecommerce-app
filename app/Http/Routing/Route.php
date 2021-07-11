@@ -112,6 +112,10 @@ class Route {
      *
      ****************************************************************************************************/
     public function doesRouteMatch(Request $request) {
+        if ($request->getMethod() !== $this->getMethod()) {
+            return false;
+        }
+
         $requestArray = explode('/', $request->getUri());
         $routeArray = explode('/', $this->uri);
 
