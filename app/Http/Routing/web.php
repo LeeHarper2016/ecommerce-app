@@ -4,7 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Routing\Router;
 
 Router::get('/', function() {
-    echo 'Hello world!';
+    print(file_get_contents(__DIR__ . '/../../../public/index.html'));
 });
-Router::get('/products/{id}', [ProductController::class, 'view']);
-Router::post('/products', [ProductController::class, 'store']);
+Router::get('/api/products/{id}', [ProductController::class, 'view']);
+Router::post('/api/products', [ProductController::class, 'store']);
