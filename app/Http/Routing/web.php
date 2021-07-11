@@ -6,4 +6,5 @@ use App\Http\Routing\Router;
 Router::get('/', function() {
     echo 'Hello world!';
 });
-Router::get('/product/{id}', [ProductController::class, 'view']);
+Router::get('/products/{id}', [ProductController::class, 'view']);
+Router::post('/products', [ProductController::class, 'store']);
