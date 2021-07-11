@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@vue/compiler-sfc": "^3.1.4",
+    "normalize.css": "^8.0.1",
     "vue-router": "^4.0.10"
   }
 }
