@@ -8,7 +8,7 @@ use Exception;
 abstract class Model {
     protected ?string $table = null;
     protected array $attributes = Array();
-    private $state;
+    private array $state;
 
     /****************************************************************************************************
      *
@@ -139,21 +139,28 @@ abstract class Model {
             if (!$this->checkAttributes($data)) {
                 throw new Exception('The attributes provided do not match the attributes of the model.');
             } else {
-                $updateString = "";
+                $this->find($id);
 
-                for ($i = 0; $i < count($data); $i++) {
-                    $key = array_keys($data)[$i];
+                if (!is_null($this->state)) {
+                    $updateString = "";
 
-                    $updateString .= "{$key} = :{$key}";
+                    for ($i = 0; $i < count($data); $i++) {
+                        $key = array_keys($data)[$i];
 
-                    if ($i !== count($data) - 1) {
-                        $updateString .= ', ';
+                        $updateString .= "{$key} = :{$key}";
+
+                        if ($i !== count($data) - 1) {
+                            $updateString .= ', ';
+                        }
                     }
+
+                    $options = ['id' => $id] + $data;
+
+                    DB::query("UPDATE {$this->table} SET {$updateString} WHERE id = :id", $options);
+
+                    $this->state = $options;
                 }
 
-                $options = ['id' => $id] + $data;
-
-                $this->state = DB::query("UPDATE {$this->table} SET {$updateString} WHERE id = :id", $options);
             }
         } catch (Exception $e) {
             echo 'ERROR: ' . $e->getMessage();
@@ -173,9 +180,24 @@ abstract class Model {
      *
      ***************************************************************************************************/
     public function delete(int $id) {
-        $this->state = DB::query("DELETE FROM {$this->table} WHERE id = :id", ['id' => $id]);
+        $this->find($id);
+
+        if (count($this->state)) {
+            DB::query("DELETE FROM {$this->table} WHERE id = :id", ['id' => $id]);
+            return $this->state;
+        }
     }
 
+    /****************************************************************************************************
+     *
+     * Function: Model.getResult().
+     * Purpose: Gets the current state of the model.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     * @return array The current state of the model.
+     *
+     ***************************************************************************************************/
     public function getResult() {
         return $this->state;
     }
