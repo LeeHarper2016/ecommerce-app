@@ -6,8 +6,8 @@ use App\Database\DB;
 use Exception;
 
 abstract class Model {
-    protected $table;
-    protected $attributes;
+    protected string $table;
+    protected array $attributes;
 
     /****************************************************************************************************
      *
@@ -57,6 +57,10 @@ abstract class Model {
     public function __construct() {
         if (is_null($this->table)) {
             $this->table = $this->deriveTableFromClass();
+        }
+
+        if (!isset($this->attributes)) {
+            $this->attributes = DB::getTableColumns($this->table);
         }
     }
 
