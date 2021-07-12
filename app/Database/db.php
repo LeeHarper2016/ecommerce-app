@@ -52,4 +52,32 @@ class DB {
 
         return $statement->fetchAll();
     }
+
+    /**************************************************************************************************************
+     *
+     * Function: DB::getTableColumns().
+     * Purpose: Retrieves an array of columns associated with a table.
+     * Precondition: The database connection exists.
+     * Postcondition: N/A.
+     *
+     * @param string $table The table that is holding the columns.
+     * @param bool $include_id Tells the function whether or not to include the ID. By default, this is false.
+     * @return array An array with all of the requested columns of a table.
+     *
+     *************************************************************************************************************/
+    public static function getTableColumns(string $table, bool $include_id = false) {
+        $columns = Array();
+
+        $tableQuery = self::$connection->query("SELECT * FROM {$table} LIMIT 0");
+
+        for ($i = 0; $i < $tableQuery->columnCount(); $i++) {
+            $column = $tableQuery->getColumnMeta($i);
+
+            if ($include_id === true || $column['name'] !== 'id') {
+                $columns[] = $column['name'];
+            }
+        }
+
+        return $columns;
+    }
 }
