@@ -11,7 +11,7 @@ class Router {
 
     /****************************************************************************************************
      *
-     * Function: Router.addRoute().
+     * Function: Router::addRoute().
      * Purpose: Adds a route to the router.
      * Precondition: N/A.
      * Postcondition: The route is added to the router.
@@ -33,7 +33,7 @@ class Router {
 
     /****************************************************************************************************
      *
-     * Function: Router.__construct().
+     * Function: Router::__construct().
      * Purpose: Acts as a default constructor for the Router class.
      * Precondition: N/A.
      * Postcondition: The Router object is initialized.
@@ -45,7 +45,7 @@ class Router {
 
     /****************************************************************************************************
      *
-     * Function: Router.get().
+     * Function: Router::get().
      * Purpose: Adds a GET route to the array of routes.
      * Precondition: N/A.
      * Postcondition: The route is added to the $routes array.
@@ -60,7 +60,7 @@ class Router {
 
     /****************************************************************************************************
      *
-     * Function: Router.post().
+     * Function: Router::post().
      * Purpose: Adds a POST route to the array of routes.
      * Precondition: N/A.
      * Postcondition: The route is added to the $routes array.
@@ -75,7 +75,7 @@ class Router {
 
     /****************************************************************************************************
      *
-     * Function: Router.patch().
+     * Function: Router::patch().
      * Purpose: Adds a PATCH route to the array of routes.
      * Precondition: N/A.
      * Postcondition: The route is added to the $routes array.
