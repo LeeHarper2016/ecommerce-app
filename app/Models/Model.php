@@ -107,15 +107,18 @@ abstract class Model {
             if (!$this->checkAttributes($data)) {
                 throw new Exception('The attributes provided do not match the attributes of the model.');
             } else {
-                $columnString = '(' . implode(', ', array_keys($data)) . ')';
+                $columnString = implode(', ', array_keys($data));
                 $options = array();
 
                 foreach ($data as $key => $datum) {
                     $options[':' . $key] = $datum;
                 }
 
-                $this->state = DB::query('INSERT INTO ' . $this->table . $columnString . '
-            VALUES (' . implode(',', array_keys($options)) . ')', $options);
+                $valuesString = implode(',', array_keys($options));
+
+                DB::query("INSERT INTO {$this->table} ($columnString) VALUES ({$valuesString})", $options);
+
+                $this->state = DB::query("SELECT * FROM {$this->table} ORDER BY id DESC LIMIT 1");
             }
         } catch (Exception $e) {
             echo 'ERROR: ' . $e->getMessage();
