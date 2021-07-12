@@ -8,7 +8,7 @@ use Exception;
 abstract class Model {
     protected ?string $table = null;
     protected array $attributes = Array();
-    private array $state;
+    protected array $state;
 
     /****************************************************************************************************
      *
