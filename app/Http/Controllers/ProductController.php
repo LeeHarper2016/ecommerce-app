@@ -22,10 +22,10 @@ class ProductController {
 
         $products->getAll();
 
-        if (count($products->getResult()) === 0) {
+        if (count($products->getState()) === 0) {
             return array();
         } else {
-            print json_encode($products->getResult());
+            print json_encode($products->getState());
             return exit(200);
         }
     }
@@ -47,11 +47,11 @@ class ProductController {
 
         $product->find($id);
 
-        if (is_null($product->getResult())) {
+        if (is_null($product->getState())) {
             echo '404: NOT FOUND';
             exit(404);
         } else {
-            echo json_encode($product->getResult());
+            echo json_encode($product->getState());
         }
     }
 
@@ -71,7 +71,7 @@ class ProductController {
 
         $product->create($request->getData());
 
-        echo json_encode($product->getResult());
+        echo json_encode($product->getState());
     }
 
     /****************************************************************************************************
@@ -92,7 +92,7 @@ class ProductController {
 
         $product->update($id, $request->getData());
 
-        echo json_encode($product->getResult());
+        echo json_encode($product->getState());
     }
 
     /****************************************************************************************************
@@ -112,6 +112,6 @@ class ProductController {
 
         $product->delete($id);
 
-        echo json_encode($product->getResult());
+        echo json_encode($product->getState());
     }
 }

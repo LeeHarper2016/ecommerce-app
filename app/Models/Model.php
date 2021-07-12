@@ -193,7 +193,7 @@ abstract class Model {
 
     /****************************************************************************************************
      *
-     * Function: Model.getResult().
+     * Function: Model.getState().
      * Purpose: Gets the current state of the model.
      * Precondition: N/A.
      * Postcondition: N/A.
@@ -201,7 +201,7 @@ abstract class Model {
      * @return array The current state of the model.
      *
      ***************************************************************************************************/
-    public function getResult() {
+    public function getState() {
         return $this->state;
     }
 }
