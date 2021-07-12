@@ -88,4 +88,23 @@ class ProductController {
 
         return $product;
     }
+
+    /****************************************************************************************************
+     *
+     * Function: ProductController.delete().
+     * Purpose: Deletes a product with the associated ID.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     * @param int $id The ID of the product being deleted.
+     *
+     ****************************************************************************************************/
+    public function delete(int $id) {
+        $request = new Request();
+        $product = new Product();
+
+        $product->delete($id);
+
+        return $product;
+    }
 }
