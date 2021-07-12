@@ -70,7 +70,7 @@ abstract class Model {
      * Function: Model.getAll().
      * Purpose: Retrieves an array of all instances of the model recorded in the database.
      * Precondition: N/A.
-     * Postcondition: N/A.
+     * Postcondition: The state of the model is updated.
      *
      ***************************************************************************************************/
     public function getAll() {
@@ -82,7 +82,7 @@ abstract class Model {
      * Function: Model.find().
      * Purpose: Finds a model within the database that has a supplied id.
      * Precondition: N/A.
-     * Postcondition: N/A.
+     * Postcondition: The state of the model is updated.
      *
      * @param int $id The ID being used for the search.
      *
@@ -93,10 +93,10 @@ abstract class Model {
 
     /****************************************************************************************************
      *
-     * Function: Model.fill().
+     * Function: Model.create().
      * Purpose: Creates a new database model supplied with data given by the user.
      * Precondition: N/A.
-     * Postcondition: A new model is stored to the database.
+     * Postcondition: A new model is stored to the database and the models current state is updated.
      *
      * @param array $data The data that will be used to create a new model
      * @throws Exception
@@ -131,7 +131,7 @@ abstract class Model {
      * Function: Model.update().
      * Purpose: Updates a database model that is associated with the supplied $id.
      * Precondition: N/A.
-     * Postcondition: The model is updated.
+     * Postcondition: The selected model is updated.
      *
      * @param array $data The data that will be used to update the model
      * @throws Exception An exception is thrown if the attributes provided are not listed on the model.
@@ -176,7 +176,7 @@ abstract class Model {
      * Function: Model.delete().
      * Purpose: Deletes a database model that is associated with the supplied $id.
      * Precondition: N/A.
-     * Postcondition: The model is deleted.
+     * Postcondition: The model is deleted, and the state of this model is updated to reflect it's old data.
      *
      * @param int $id The ID of the model being deleted.
      * @throws Exception An exception is thrown if the attributes provided are not listed on the model.
