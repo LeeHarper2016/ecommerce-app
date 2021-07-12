@@ -189,4 +189,19 @@ abstract class Model {
             exit();
         }
     }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.delete().
+     * Purpose: Deletes a database model that is associated with the supplied $id.
+     * Precondition: N/A.
+     * Postcondition: The model is deleted.
+     *
+     * @param int $id The ID of the model being deleted.
+     * @throws Exception An exception is thrown if the attributes provided are not listed on the model.
+     *
+     ***************************************************************************************************/
+    public function delete(int $id) {
+        $result = DB::query("DELETE FROM {$this->table} WHERE id = :id", ['id' => $id]);
+    }
 }
