@@ -69,4 +69,21 @@ class ProductController {
 
         return $product;
     }
+
+    /****************************************************************************************************
+     *
+     * Function: ProductController.store().
+     * Purpose: Takes in user input, and then uses it to attempt to create a new Product model.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     ****************************************************************************************************/
+    public function update(int $id) {
+        $request = new Request();
+        $product = new Product();
+
+        $product->update($id, $request->getData());
+
+        return $product;
+    }
 }
