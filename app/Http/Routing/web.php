@@ -10,3 +10,4 @@ Router::get('/api/products/{id}', [ProductController::class, 'view']);
 Router::get('/api/products', [ProductController::class, 'viewAll']);
 Router::post('/api/products', [ProductController::class, 'store']);
 Router::patch('/api/products/{id}', [ProductController::class, 'update']);
+Router::delete('/api/products/{id}', [ProductController::class, 'delete']);
