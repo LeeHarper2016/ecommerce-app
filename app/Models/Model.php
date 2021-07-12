@@ -116,9 +116,9 @@ abstract class Model {
 
                 $valuesString = implode(',', array_keys($options));
 
-                DB::query("INSERT INTO {$this->table} ($columnString) VALUES ({$valuesString})", $options);
+                DB::query("INSERT INTO $this->table ($columnString) VALUES ($valuesString)", $options);
 
-                $this->state = DB::query("SELECT * FROM {$this->table} ORDER BY id DESC LIMIT 1");
+                $this->state = DB::query("SELECT * FROM $this->table ORDER BY id DESC LIMIT 1");
             }
         } catch (Exception $e) {
             echo 'ERROR: ' . $e->getMessage();
@@ -150,7 +150,7 @@ abstract class Model {
                     for ($i = 0; $i < count($data); $i++) {
                         $key = array_keys($data)[$i];
 
-                        $updateString .= "{$key} = :{$key}";
+                        $updateString .= "$key = :$key";
 
                         if ($i !== count($data) - 1) {
                             $updateString .= ', ';
@@ -159,7 +159,7 @@ abstract class Model {
 
                     $options = ['id' => $id] + $data;
 
-                    DB::query("UPDATE {$this->table} SET {$updateString} WHERE id = :id", $options);
+                    DB::query("UPDATE $this->table SET $updateString WHERE id = :id", $options);
 
                     $this->state = $options;
                 }
@@ -186,8 +186,10 @@ abstract class Model {
         $this->find($id);
 
         if (count($this->state)) {
-            DB::query("DELETE FROM {$this->table} WHERE id = :id", ['id' => $id]);
+            DB::query("DELETE FROM $this->table WHERE id = :id", ['id' => $id]);
             return $this->state;
+        } else {
+            return array();
         }
     }
 
