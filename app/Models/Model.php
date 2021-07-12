@@ -8,6 +8,7 @@ use Exception;
 abstract class Model {
     protected ?string $table = null;
     protected array $attributes = Array();
+    private $state;
 
     /****************************************************************************************************
      *
@@ -71,11 +72,9 @@ abstract class Model {
      * Precondition: N/A.
      * Postcondition: N/A.
      *
-     * @return array An array of all model instances.
-     *
      ***************************************************************************************************/
     public function getAll() {
-        return DB::query('SELECT * FROM ' . $this->table);
+        $this->state = DB::query('SELECT * FROM ' . $this->table);
     }
 
     /****************************************************************************************************
@@ -85,39 +84,11 @@ abstract class Model {
      * Precondition: N/A.
      * Postcondition: N/A.
      *
-     * @param int $id The ID being used for the search
-     * @return null|array The model that has the supplied array, or an empty array if none was found.
+     * @param int $id The ID being used for the search.
      *
      ***************************************************************************************************/
     public function find(int $id) {
-        $result = DB::query('SELECT * FROM ' . $this->table . ' WHERE id = :id', [':id' => $id]);
-
-        if (count($result) === 0) {
-            return null;
-        } else {
-            return $result[0];
-        }
-    }
-
-    /****************************************************************************************************
-     *
-     * Function: Model.fill().
-     * Purpose: Supplies the attributes of the model with data given by the user.
-     * Precondition: N/A.
-     * Postcondition: The $attributes are filled.
-     *
-     * @param array $data The data that will be used to populate the model
-     * @throws Exception
-     *
-     ***************************************************************************************************/
-    public function fill(array $data) {
-        if (!$this->checkAttributes($data)) {
-            throw new Exception('The attributes provided do not match the attributes of the model.');
-        } else {
-            foreach ($data as $key => $attribute) {
-                $this->attributes[$key] = $attribute;
-            }
-        }
+        $this->state = DB::query('SELECT * FROM ' . $this->table . ' WHERE id = :id', [':id' => $id]);
     }
 
     /****************************************************************************************************
@@ -143,7 +114,7 @@ abstract class Model {
                     $options[':' . $key] = $datum;
                 }
 
-                $result = DB::query('INSERT INTO ' . $this->table . $columnString . '
+                $this->state = DB::query('INSERT INTO ' . $this->table . $columnString . '
             VALUES (' . implode(',', array_keys($options)) . ')', $options);
             }
         } catch (Exception $e) {
@@ -182,7 +153,7 @@ abstract class Model {
 
                 $options = ['id' => $id] + $data;
 
-                $result = DB::query("UPDATE {$this->table} SET {$updateString} WHERE id = :id", $options);
+                $this->state = DB::query("UPDATE {$this->table} SET {$updateString} WHERE id = :id", $options);
             }
         } catch (Exception $e) {
             echo 'ERROR: ' . $e->getMessage();
@@ -202,6 +173,10 @@ abstract class Model {
      *
      ***************************************************************************************************/
     public function delete(int $id) {
-        $result = DB::query("DELETE FROM {$this->table} WHERE id = :id", ['id' => $id]);
+        $this->state = DB::query("DELETE FROM {$this->table} WHERE id = :id", ['id' => $id]);
+    }
+
+    public function getResult() {
+        return $this->state;
     }
 }
