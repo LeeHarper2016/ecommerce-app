@@ -6,8 +6,8 @@ use App\Database\DB;
 use Exception;
 
 abstract class Model {
-    protected string $table;
-    protected array $attributes;
+    protected ?string $table = null;
+    protected array $attributes = Array();
 
     /****************************************************************************************************
      *
@@ -59,7 +59,7 @@ abstract class Model {
             $this->table = $this->deriveTableFromClass();
         }
 
-        if (!isset($this->attributes)) {
+        if (count($this->attributes) === 0) {
             $this->attributes = DB::getTableColumns($this->table);
         }
     }
@@ -145,6 +145,44 @@ abstract class Model {
 
                 $result = DB::query('INSERT INTO ' . $this->table . $columnString . '
             VALUES (' . implode(',', array_keys($options)) . ')', $options);
+            }
+        } catch (Exception $e) {
+            echo 'ERROR: ' . $e->getMessage();
+            exit();
+        }
+    }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.update().
+     * Purpose: Updates a database model that is associated with the supplied $id.
+     * Precondition: N/A.
+     * Postcondition: The model is updated.
+     *
+     * @param array $data The data that will be used to update the model
+     * @throws Exception An exception is thrown if the attributes provided are not listed on the model.
+     *
+     ***************************************************************************************************/
+    public function update(int $id, array $data) {
+        try {
+            if (!$this->checkAttributes($data)) {
+                throw new Exception('The attributes provided do not match the attributes of the model.');
+            } else {
+                $updateString = "";
+
+                for ($i = 0; $i < count($data); $i++) {
+                    $key = array_keys($data)[$i];
+
+                    $updateString .= "{$key} = :{$key}";
+
+                    if ($i !== count($data) - 1) {
+                        $updateString .= ', ';
+                    }
+                }
+
+                $options = ['id' => $id] + $data;
+
+                $result = DB::query("UPDATE {$this->table} SET {$updateString} WHERE id = :id", $options);
             }
         } catch (Exception $e) {
             echo 'ERROR: ' . $e->getMessage();
