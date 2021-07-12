@@ -77,6 +77,8 @@ class ProductController {
      * Precondition: N/A.
      * Postcondition: N/A.
      *
+     * @param int $id The ID of the product being updated.
+     *
      ****************************************************************************************************/
     public function update(int $id) {
         $request = new Request();
