@@ -18,14 +18,14 @@ class ProductController {
     public function viewAll() {
         header('Content-type: application/json');
 
-        $productModel = new Product();
+        $products = new Product();
 
-        $products = $productModel->getAll();
+        $products->getAll();
 
-        if (count($products) === 0) {
+        if (count($products->getResult()) === 0) {
             return array();
         } else {
-            print json_encode($products);
+            print json_encode($products->getResult());
             return exit(200);
         }
     }
@@ -41,16 +41,18 @@ class ProductController {
      *
      ****************************************************************************************************/
     public function view(int $id) {
+        header('Content-type: application/json');
+
         $product = new Product();
 
-        $searchedProduct = $product->find($id);
+        $product->find($id);
 
-        if (is_null($searchedProduct)) {
+        if (is_null($product->getResult())) {
             echo '404: NOT FOUND';
             exit(404);
+        } else {
+            echo json_encode($product->getResult());
         }
-
-        print_r($product->find($id));
     }
 
     /****************************************************************************************************
@@ -62,12 +64,14 @@ class ProductController {
      *
      ****************************************************************************************************/
     public function store() {
+        header('Content-type: application/json');
+
         $request = new Request();
         $product = new Product();
 
         $product->create($request->getData());
 
-        return $product;
+        echo json_encode($product->getResult());
     }
 
     /****************************************************************************************************
@@ -81,12 +85,14 @@ class ProductController {
      *
      ****************************************************************************************************/
     public function update(int $id) {
+        header('Content-type: application/json');
+
         $request = new Request();
         $product = new Product();
 
         $product->update($id, $request->getData());
 
-        return $product;
+        echo json_encode($product->getResult());
     }
 
     /****************************************************************************************************
@@ -100,11 +106,12 @@ class ProductController {
      *
      ****************************************************************************************************/
     public function delete(int $id) {
-        $request = new Request();
+        header('Content-type: application/json');
+
         $product = new Product();
 
         $product->delete($id);
 
-        return $product;
+        echo json_encode($product->getResult());
     }
 }
