@@ -72,8 +72,8 @@ class ProductController {
 
     /****************************************************************************************************
      *
-     * Function: ProductController.store().
-     * Purpose: Takes in user input, and then uses it to attempt to create a new Product model.
+     * Function: ProductController.update().
+     * Purpose: Takes in user input, and then uses it to attempt to update a model with the associated ID.
      * Precondition: N/A.
      * Postcondition: N/A.
      *
