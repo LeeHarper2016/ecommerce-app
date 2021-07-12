@@ -50,7 +50,7 @@ class DB {
 
         $statement->execute();
 
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**************************************************************************************************************
