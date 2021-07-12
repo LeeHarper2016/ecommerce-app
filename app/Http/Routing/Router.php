@@ -11,6 +11,28 @@ class Router {
 
     /****************************************************************************************************
      *
+     * Function: Router.addRoute().
+     * Purpose: Adds a route to the router.
+     * Precondition: N/A.
+     * Postcondition: The route is added to the router.
+     *
+     * @param string $method The request method of the route.
+     * @param string $uri The URI of the route.
+     * @param callable|array The callback function that will be executed upon entering the route.
+     *
+     ***************************************************************************************************/
+    private static function addRoute(string $method, string $uri, callable|array $callback) {
+        preg_match('/{.+}/', $uri,$matches);
+
+        if (count($matches) === 0) {
+            self::$routes[] = ['route' => new Route($uri, $method),'callback' => $callback];
+        } else {
+            self::$routes[] = ['route' => new Route($uri, $method, $matches),'callback' => $callback];
+        }
+    }
+
+    /****************************************************************************************************
+     *
      * Function: Router.__construct().
      * Purpose: Acts as a default constructor for the Router class.
      * Precondition: N/A.
@@ -33,13 +55,7 @@ class Router {
      *
      ***************************************************************************************************/
     public static function get(string $uri, callable|array $callback) {
-        preg_match('/{.+}/', $uri,$matches);
-
-        if (count($matches) === 0) {
-            self::$routes[] = ['route' => new Route($uri, 'get'),'callback' => $callback];
-        } else {
-            self::$routes[] = ['route' => new Route($uri, 'get', $matches),'callback' => $callback];
-        }
+        self::addRoute('get', $uri, $callback);
     }
 
     /****************************************************************************************************
@@ -54,13 +70,7 @@ class Router {
      *
      ***************************************************************************************************/
     public static function post(string $uri, callable|array $callback) {
-        preg_match('/{.+}/', $uri,$matches);
-
-        if (count($matches) === 0) {
-            self::$routes[] = ['route' => new Route($uri, 'post'),'callback' => $callback];
-        } else {
-            self::$routes[] = ['route' => new Route($uri, 'post', $matches),'callback' => $callback];
-        }
+        self::addRoute('post', $uri, $callback);
     }
 
     /****************************************************************************************************
@@ -75,13 +85,7 @@ class Router {
      *
      ***************************************************************************************************/
     public static function patch(string $uri, callable|array $callback) {
-        preg_match('/{.+}/', $uri,$matches);
-
-        if (count($matches) === 0) {
-            self::$routes[] = ['route' => new Route($uri, 'patch'),'callback' => $callback];
-        } else {
-            self::$routes[] = ['route' => new Route($uri, 'patch', $matches),'callback' => $callback];
-        }
+        self::addRoute('patch', $uri, $callback);
     }
 
     /****************************************************************************************************
