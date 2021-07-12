@@ -121,8 +121,6 @@ class Router {
                 if (is_array($callback)) {
                     $callable = [new $callback[0], $callback[1]];
 
-                    print_r($route['route']->getBoundInput());
-
                     call_user_func_array($callable, $route['route']->getBoundInput());
                 } else {
                     call_user_func_array($callback, $route['route']->getBoundInput());
