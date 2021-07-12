@@ -75,6 +75,21 @@ class Router {
 
     /****************************************************************************************************
      *
+     * Function: Router::put().
+     * Purpose: Adds a PUT route to the array of routes.
+     * Precondition: N/A.
+     * Postcondition: The route is added to the $routes array.
+     *
+     * @param string $uri The route that will execute a callback when resolved.
+     * @param callable|array $callback The function/method that will be executed when the route is resolved.
+     *
+     ***************************************************************************************************/
+    public static function put(string $uri, callable|array $callback) {
+        self::addRoute('patch', $uri, $callback);
+    }
+
+    /****************************************************************************************************
+     *
      * Function: Router::patch().
      * Purpose: Adds a PATCH route to the array of routes.
      * Precondition: N/A.
