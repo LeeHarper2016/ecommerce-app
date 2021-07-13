@@ -7,7 +7,9 @@
              id="search"
              v-model="searchString">
     </label>
-    <div id="product-list">
+    <transition-group name="fade"
+                      tag="div"
+                      id="product-list">
       <div class="product-card"
            v-for="product of products"
            v-show="product.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1"
@@ -16,11 +18,18 @@
         <p v-if="product.description.length > 255">{{ product.description.substring(0, 255) }}...</p>
         <p v-else>{{ product.description }}</p>
       </div>
-    </div>
+    </transition-group>
   </div>
 
 </template>
 <style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .35s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 input {
   display: block;
   font-size: 1.25rem;
