@@ -243,7 +243,7 @@ abstract class Model {
      ***************************************************************************************************/
     public function findOne(string $attribute, mixed $value) {
         if ($this->checkAttributes([$attribute => ''])) {
-            $this->state = DB::query("SELECT * FROM $this->table WHERE $attribute = :$attribute LIMIT 1", [":$attribute" => $value]);
+            $this->state = DB::query("SELECT * FROM $this->table WHERE $attribute = :$attribute LIMIT 1", [":$attribute" => $value])[0];
         }
     }
 
@@ -260,7 +260,7 @@ abstract class Model {
      ***************************************************************************************************/
     public function compare(string $attribute, mixed $value) {
         if ($this->checkAttributes([$attribute => ''])) {
-            return $this->state[0][$attribute] === $value;
+            return $this->state[$attribute] === $value;
         }
     }
 
