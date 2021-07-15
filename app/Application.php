@@ -16,6 +16,8 @@ class Application {
 
         DB::initiate();
 
+        session_start();
+
         $request = new Request();
 
         Router::resolve($request);
