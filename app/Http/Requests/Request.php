@@ -23,7 +23,11 @@ class Request {
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         $this->data = array();
 
-        if (!is_null(file_get_contents('php://input'))) {
+        if (!is_null($_POST)) {
+            $this->data = $_POST;
+        } else if (!is_null($_GET)) {
+            $this->data = $_GET;
+        } else if (!is_null(file_get_contents('php://input'))) {
             $formData = file_get_contents('php://input');
 
             if ($formData !== "") {
