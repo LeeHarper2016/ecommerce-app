@@ -1,10 +1,10 @@
 <template>
   <nav>
-    <a class="nav-link" href="/">Home</a>
+    <RouterLink class="nav-link" to="/">Home</RouterLink>
     <RouterLink class="nav-link" to="/products">Products</RouterLink>
     <a class="nav-link" href="/about">About Us</a>
     <a class="nav-link" href="/contact">Contact Us</a>
-    <a class="nav-link" href="/login">Login</a>
+    <RouterLink class="nav-link" to="/login">Login</RouterLink>
   </nav>
 </template>
 <style>
