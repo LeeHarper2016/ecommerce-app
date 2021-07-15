@@ -49,6 +49,43 @@ abstract class Model {
 
     /****************************************************************************************************
      *
+     * Function: Model.callAttributeModifier().
+     * Purpose: Calls all of the necessary attribute modifiers for the model.
+     * Precondition: N/A.
+     * Postcondition: The attribute is supplied using the associated modifier.
+     *
+     ***************************************************************************************************/
+    private function callAttributeModifier(string $attribute, mixed $value) {
+        if (method_exists($this, "set${attribute}Attribute")) {
+            call_user_func_array([$this, "set${attribute}Attribute"], ['value' => $value]);
+        }
+    }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.assignValueToAttribute().
+     * Purpose: Assigns a value to the given attribute of the model.
+     * Precondition: N/A.
+     * Postcondition: The value is successfully stored to the attribute.
+     *
+     * @param mixed $value The value to be stored to the attribute.
+     * @param string $attribute The attribute that the value will be stored to.
+     *
+     ***************************************************************************************************/
+    private function assignValueToAttribute(mixed $value, string $attribute) {
+        if (in_array($attribute, $this->attributes)) {
+            $this->callAttributeModifier($attribute, $value);
+
+            if (!isset($this->state[$attribute])) {
+                $this->state[$attribute] = $value;
+            }
+        } else {
+            echo 'ERROR: ATTRIBUTE NOT FOUND IN MODEL';
+        }
+    }
+
+    /****************************************************************************************************
+     *
      * Function: Model.__construct().
      * Purpose: Constructs a new model instance.
      * Precondition: N/A.
@@ -111,14 +148,14 @@ abstract class Model {
                 $options = array();
 
                 foreach ($data as $key => $datum) {
-                    $options[':' . $key] = $datum;
+                    $this->assignValueToAttribute($datum, $key);
+
+                    $options[':' . $key] = $this->state[$key];
                 }
 
                 $valuesString = implode(',', array_keys($options));
 
                 DB::query("INSERT INTO $this->table ($columnString) VALUES ($valuesString)", $options);
-
-                $this->state = DB::query("SELECT * FROM $this->table ORDER BY id DESC LIMIT 1");
             }
         } catch (Exception $e) {
             echo 'ERROR: ' . $e->getMessage();
@@ -190,6 +227,40 @@ abstract class Model {
             return $this->state;
         } else {
             return array();
+        }
+    }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.findOne().
+     * Purpose: Finds one model match from the database relating to a given attribute and variable.
+     * Precondition: N/A.
+     * Postcondition: The state is supplied with the found model
+     *
+     * @param string $attribute The attribute that is being searched with.
+     * @param mixed $value The value of the attribute being searched for.
+     *
+     ***************************************************************************************************/
+    public function findOne(string $attribute, mixed $value) {
+        if ($this->checkAttributes([$attribute => ''])) {
+            $this->state = DB::query("SELECT * FROM $this->table WHERE $attribute = :$attribute LIMIT 1", [":$attribute" => $value]);
+        }
+    }
+
+    /****************************************************************************************************
+     *
+     * Function: Model.compare().
+     * Purpose: Compares the attribute of a model to see if it is equal to a given value.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     * @param string $attribute The attribute being compared against.
+     * @param mixed $value The value that is being compared to the model.
+     *
+     ***************************************************************************************************/
+    public function compare(string $attribute, mixed $value) {
+        if ($this->checkAttributes([$attribute => ''])) {
+            return $this->state[0][$attribute] === $value;
         }
     }
 
