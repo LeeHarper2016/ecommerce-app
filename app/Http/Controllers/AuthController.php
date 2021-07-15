@@ -35,4 +35,16 @@ class AuthController {
 
         Auth::attempt(['email' => $request->getData()['email'], 'password' => $request->getData()['password']]);
     }
+
+    /****************************************************************************************************
+     *
+     * Function: AuthController.getUser().
+     * Purpose: Prints the information of the currently authenticated user.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     ***************************************************************************************************/
+    public function getUser() {
+        print_r(Auth::user());
+    }
 }
