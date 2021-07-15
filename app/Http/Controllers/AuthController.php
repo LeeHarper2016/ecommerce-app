@@ -34,6 +34,10 @@ class AuthController {
         $request = new Request();
 
         Auth::attempt(['email' => $request->getData()['email'], 'password' => $request->getData()['password']]);
+
+        if (isset($_SESSION['user'])); {
+            echo json_encode($_SESSION['user']);
+        }
     }
 
     /****************************************************************************************************
