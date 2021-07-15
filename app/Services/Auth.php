@@ -47,7 +47,6 @@ class Auth {
         $user = self::checkCredentials($credentials);
 
         if (count($user) !== 0) {
-            session_start();
 
             $_SESSION['user'] = [
                 'username' => $user['username'],
@@ -58,6 +57,26 @@ class Auth {
             return true;
         } else {
             return false;
+        }
+    }
+
+    /****************************************************************************************************
+     *
+     * Function: Auth::user().
+     * Purpose: Retrieves the user information from the current session.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     * @return array The user information of the currently validated user, or an empty array if they are
+     *               a guest.
+     *
+     ***************************************************************************************************/
+    public static function user() {
+        if (isset($_SESSION['user'])) {
+            return $_SESSION['user'];
+        } else {
+            print_r($_SESSION);
+            return array();
         }
     }
 }
