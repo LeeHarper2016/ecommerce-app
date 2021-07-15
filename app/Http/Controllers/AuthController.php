@@ -33,6 +33,6 @@ class AuthController {
     public function logInUser() {
         $request = new Request();
 
-        Auth::checkCredentials(['email' => $request->getData()['email'], 'password' => $request->getData()['password']]);
+        Auth::attempt(['email' => $request->getData()['email'], 'password' => $request->getData()['password']]);
     }
 }
