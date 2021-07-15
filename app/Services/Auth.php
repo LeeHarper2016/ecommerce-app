@@ -14,6 +14,8 @@ class Auth {
      *
      * @param array $credentials The credentials the user is attempting to log in with.
      *
+     * @return array The data pertaining to the authenticated user.
+     *
      ***************************************************************************************************/
     public static function checkCredentials(array $credentials) {
         $user = new User();
@@ -23,8 +25,39 @@ class Auth {
         if (count($user->getState()) !== 0) {
             $saltedPassword = hash($_ENV['HASH_ALGORITHM'], $_ENV['SALT_PHRASE'] . $credentials['password']);
             if ($user->compare('password', $saltedPassword)) {
-                echo 'SUCCESSFULLY LOGGED IN.';
+                return $user->getState();
             }
+        }
+    }
+
+
+    /****************************************************************************************************
+     *
+     * Function: Auth::attempt().
+     * Purpose: Attempts to authenticate the user using the credentials they input.
+     * Precondition: N/A.
+     * Postcondition: If the credentials are valid, then the user is authenticated.
+     *
+     * @param array $credentials The credentials supplied by the user.
+     *
+     * @return bool True if the user is successfully authenticated, false otherwise.
+     *
+     ***************************************************************************************************/
+    public static function attempt(array $credentials) {
+        $user = self::checkCredentials($credentials);
+
+        if (count($user) !== 0) {
+            session_start();
+
+            $_SESSION['user'] = [
+                'username' => $user['username'],
+                'email' => $user['email'],
+                'signedInAt' => date(DATE_RFC2822)
+            ];
+
+            return true;
+        } else {
+            return false;
         }
     }
 }
