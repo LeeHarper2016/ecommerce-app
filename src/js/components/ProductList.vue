@@ -7,7 +7,8 @@
              id="search"
              v-model="searchString">
     </label>
-    <transition-group name="fade"
+    <transition-group v-if="isLoading === false"
+                      name="fade"
                       tag="div"
                       id="product-list">
       <div class="product-card"
@@ -66,7 +67,8 @@ import axios from 'axios';
         products: [{
           name: '',
           description: ''
-        }]
+        }],
+        isLoading: true
       }
     },
     async mounted() {
@@ -74,7 +76,7 @@ import axios from 'axios';
 
       this.products = res.data;
 
-      console.log(this.products);
+      this.isLoading = false;
     }
   }
 </script>
