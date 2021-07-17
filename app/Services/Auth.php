@@ -75,8 +75,7 @@ class Auth {
         if (isset($_SESSION['user'])) {
             return $_SESSION['user'];
         } else {
-            print_r($_SESSION);
-            return array();
+            return null;
         }
     }
 }
