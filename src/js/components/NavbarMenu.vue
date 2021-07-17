@@ -5,7 +5,8 @@
     <a class="nav-link" href="/about">About Us</a>
     <a class="nav-link" href="/contact">Contact Us</a>
     <RouterLink v-if="this.$store.state.user === null" class="nav-link" to="/login">Login</RouterLink>
-    <RouterLink v-else class="nav-link" to="/login">Hello {{ this.$store.state.user.username }}</RouterLink>
+    <RouterLink v-if="this.$store.state.user" class="nav-link" to="/login">Hello {{ this.$store.state.user.username }}</RouterLink>
+    <RouterLink v-if="this.$store.state.user" class="nav-link" to="/admin">Admin</RouterLink>
   </nav>
 </template>
 <style>
