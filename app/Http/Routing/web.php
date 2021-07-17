@@ -15,3 +15,5 @@ Router::delete('/api/products/{id}', [ProductController::class, 'delete']);
 
 Router::get('/api/user', [AuthController::class, 'getUser']);
 Router::post('/api/user/login', [AuthController::class, 'logInUser']);
+
+Router::get('/api/auth', [AuthController::class, 'getRole']);
