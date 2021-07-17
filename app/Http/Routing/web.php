@@ -17,3 +17,7 @@ Router::get('/api/user', [AuthController::class, 'getUser']);
 Router::post('/api/user/login', [AuthController::class, 'logInUser']);
 
 Router::get('/api/auth', [AuthController::class, 'getRole']);
+
+Router::fallback('/',  function() {
+    print(file_get_contents(__DIR__ . '/../../../public/index.html'));
+});
