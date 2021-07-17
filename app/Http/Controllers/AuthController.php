@@ -51,4 +51,16 @@ class AuthController {
     public function getUser() {
         echo json_encode(Auth::user());
     }
+
+    /****************************************************************************************************
+     *
+     * Function: AuthController.getUser().
+     * Purpose: Prints the information of the currently authenticated user.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     ***************************************************************************************************/
+    public function getRole() {
+        echo json_encode(['isOwner' => Auth::isUserOwner()]);
+    }
 }
