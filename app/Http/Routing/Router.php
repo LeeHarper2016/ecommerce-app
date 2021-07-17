@@ -9,6 +9,9 @@ class Router {
     // Stores a list of all routes in the router.
     private static array $routes;
 
+    // If the requested route is not resolved, fallback to this route.
+    private static array $fallback;
+
     /****************************************************************************************************
      *
      * Function: Router::addRoute().
@@ -129,8 +132,12 @@ class Router {
      *
      ***************************************************************************************************/
     public static function resolve(Request $request) {
+        $routeFound = false;
+
         foreach (self::$routes as $route) {
             if ($route['route']->doesRouteMatch($request)) {
+                $routeFound = true;
+
                 $callback = $route['callback'];
 
                 if (is_array($callback)) {
@@ -142,5 +149,13 @@ class Router {
                 }
             }
         }
+
+        if ($routeFound === false) {
+            call_user_func_array(self::$fallback['callback'], self::$fallback['route']->getBoundInput());
+        }
+    }
+
+    public static function fallback(string $uri, callable|array $callback) {
+        self::$fallback = ['route' => new Route('get', $uri), 'callback' => $callback];
     }
 }
