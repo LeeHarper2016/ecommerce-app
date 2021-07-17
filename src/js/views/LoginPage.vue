@@ -36,8 +36,6 @@ export default {
       let data = new FormData(form);
 
       let res = await axios.post('/api/user/login', data);
-
-      console.log(res.data);
     }
   }
 }
