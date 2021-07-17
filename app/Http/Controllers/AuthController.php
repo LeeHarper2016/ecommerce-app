@@ -49,6 +49,6 @@ class AuthController {
      *
      ***************************************************************************************************/
     public function getUser() {
-        print_r(Auth::user());
+        echo json_encode(Auth::user());
     }
 }
