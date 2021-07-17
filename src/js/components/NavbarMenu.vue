@@ -4,7 +4,8 @@
     <RouterLink class="nav-link" to="/products">Products</RouterLink>
     <a class="nav-link" href="/about">About Us</a>
     <a class="nav-link" href="/contact">Contact Us</a>
-    <RouterLink class="nav-link" to="/login">Login</RouterLink>
+    <RouterLink v-if="this.$store.state.user === null" class="nav-link" to="/login">Login</RouterLink>
+    <RouterLink v-else class="nav-link" to="/login">Hello {{ this.$store.state.user.username }}</RouterLink>
   </nav>
 </template>
 <style>
