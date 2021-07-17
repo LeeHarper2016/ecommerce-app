@@ -54,6 +54,8 @@ class Auth {
                 'signedInAt' => date(DATE_RFC2822)
             ];
 
+            $_SESSION['isOwner'] = $user['is_owner'];
+
             return true;
         } else {
             return false;
@@ -76,6 +78,28 @@ class Auth {
             return $_SESSION['user'];
         } else {
             return null;
+        }
+    }
+
+    /****************************************************************************************************
+     *
+     * Function: Auth::checkIsOwner().
+     * Purpose: Checks if the user is the owner of the website.
+     * Precondition: N/A.
+     * Postcondition: N/A.
+     *
+     * @return boolean The is_owner value associated with the model.
+     *
+     ***************************************************************************************************/
+    public static function isUserOwner() {
+        if (isset($_SESSION['user'])) {
+            if ($_SESSION['isOwner'] === false) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
         }
     }
 }
