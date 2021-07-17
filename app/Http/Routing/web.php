@@ -13,4 +13,5 @@ Router::post('/api/products', [ProductController::class, 'store']);
 Router::patch('/api/products/{id}', [ProductController::class, 'update']);
 Router::delete('/api/products/{id}', [ProductController::class, 'delete']);
 
+Router::get('/api/user', [AuthController::class, 'getUser']);
 Router::post('/api/user/login', [AuthController::class, 'logInUser']);
