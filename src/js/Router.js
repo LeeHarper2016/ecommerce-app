@@ -3,7 +3,10 @@ import { createWebHistory, createRouter } from 'vue-router';
 import Home from "./views/Home.vue";
 import LoginPage from './views/LoginPage.vue';
 import Products from './views/Products.vue';
-import axios from "axios";
+import Admin from './views/Admin.vue';
+import ProductsCreate from './views/ProductsCreate.vue';
+
+import axios from 'axios';
 
 const routes = [
     {
@@ -17,9 +20,25 @@ const routes = [
         component: Products
     },
     {
+        path: '/products/create',
+        name: 'ProductsCreate',
+        component: ProductsCreate,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
         path: '/login',
         name: 'LoginPage',
         component: LoginPage
+    },
+    {
+        path: '/admin',
+        name: 'Admin',
+        component: Admin,
+        meta: {
+            requiresAuth: true
+        }
     },
 ];
 
@@ -33,7 +52,6 @@ Router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
         axios.get('/api/auth')
             .then(res => {
-                console.log(res.data);
                 if (res.data.isOwner !== false) {
                     next();
                 }
