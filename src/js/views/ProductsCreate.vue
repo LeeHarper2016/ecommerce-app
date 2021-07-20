@@ -1,24 +1,31 @@
 <template>
-  <div>
+  <div class="container">
+    <h1>Create Product</h1>
+    <hr>
     <form @submit.prevent="submitForm"
           ref="product_form">
       <label for="name">
+        Product Name:
         <input type="text"
                name="name"
                id="name">
       </label>
       <label for="description">
-        <textarea rows="40"
+        Product Description:
+        <textarea rows="10"
                   cols="40"
                   name="description"
                   id="description"></textarea>
       </label>
       <label for="price">
+        Product Price:
         <input type="number"
+               step="0.01"
                name="price"
                id="price">
       </label>
       <label for="img">
+        Product Image:
         <input type="text"
                name="img"
                id="img">
@@ -28,7 +35,10 @@
   </div>
 </template>
 <style>
-
+label, textarea {
+  display: block;
+  margin-bottom: 1rem;
+}
 </style>
 <script>
 
