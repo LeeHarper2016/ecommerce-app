@@ -3,4 +3,9 @@ button {
     padding: 10px;
     border: 1px solid black;
     border-radius: 1rem;
+    cursor: pointer;
+}
+
+.container {
+    padding: 2.5rem;
 }
