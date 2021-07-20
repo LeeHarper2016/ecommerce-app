@@ -5,6 +5,7 @@ import App from './App.vue';
 import Router from './Router';
 
 require('normalize.css');
+require('../css/app.css');
 
 const store = createStore({
     state() {
