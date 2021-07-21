@@ -24,7 +24,7 @@
 
         <div class="btn_menu">
           <button>Add to Cart</button>
-          <button>View</button>
+          <button @click="goToProduct(product.id)">View</button>
         </div>
 
       </div>
@@ -93,6 +93,11 @@ import axios from 'axios';
           description: ''
         }],
         isLoading: true
+      }
+    },
+    methods: {
+      goToProduct(id) {
+        this.$router.push(`/products/${id}`)
       }
     },
     async mounted() {
