@@ -16,6 +16,7 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: start;
+  background: white;
   width: 100vw;
   border-bottom: 2px solid black;
   overflow: hidden;
