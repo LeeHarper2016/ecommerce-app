@@ -5,6 +5,7 @@ import LoginPage from './views/LoginPage.vue';
 import Products from './views/Products.vue';
 import Admin from './views/Admin.vue';
 import ProductsCreate from './views/ProductsCreate.vue';
+import ProductSingle from "./views/ProductSingle.vue";
 
 import axios from 'axios';
 
@@ -18,6 +19,11 @@ const routes = [
         path: '/products',
         name: 'Products',
         component: Products
+    },
+    {
+        path: '/products/:id',
+        name: 'ProductSingle',
+        component: ProductSingle
     },
     {
         path: '/products/create',
