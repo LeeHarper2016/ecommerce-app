@@ -1,13 +1,17 @@
 <template>
-  <div>
+  <div class="container">
+    <h1>Log In</h1>
+    <hr>
     <form @submit.prevent="submitForm"
           ref="login_form">
       <label for="email">
+        Email:
         <input type="email"
                name="email"
                id="email">
       </label>
       <label for="password">
+        Password:
         <input type="password"
                name="password"
                id="password">
